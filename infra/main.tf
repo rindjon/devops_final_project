@@ -11,6 +11,10 @@ module "sg" {
   extra_ports = try(each.value.extra_ports, [])
 }
 
+module "s3" {
+  source = "./modules/s3"
+}
+
 module "ec2" {
   source            = "./modules/ec2"
   for_each          = var.ec2_map
@@ -23,5 +27,5 @@ module "ec2" {
   ssh_key_name       = try(each.value.ssh_key_name, var.ssh_key_name)
   user_data          = try(each.value.user_data, "")
 
-  depends_on = [ module.sg ]
+  depends_on = [ module.vpc, module.sg ]
 }
