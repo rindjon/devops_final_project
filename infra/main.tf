@@ -11,9 +11,9 @@ module "sg" {
   extra_ports = try(each.value.extra_ports, [])
 }
 
-module "s3" {
-  source = "./modules/s3"
-}
+# module "s3" {
+#   source = "./modules/s3"
+# }
 
 module "ec2" {
   source            = "./modules/ec2"
