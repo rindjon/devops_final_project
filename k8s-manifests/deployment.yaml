@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: python-app
-        image: d4v5he/pyui:v1
+        image: rr1docker1/final-proj-app:v1
         ports:
         - containerPort: 5000
         volumeMounts:
