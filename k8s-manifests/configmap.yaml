@@ -6,5 +6,8 @@ metadata:
 data:
   config.json: |
     {
-      "welcome_message": "Welcome - This is a message from configmap!"
+      "welcome_message"       : "Welcome - This is our cars photos viewer",
+      "S3_bucket_name"        : "devops-final-project-photos",
+      "aws_access_key_id"     : "AWS_ID",
+      "aws_secret_access_key" : "AWS_SECRET"
     }
