@@ -46,11 +46,9 @@
         <h1>{{ welcome_message }}</h1>
     </div>
     <div class="photos">
-        {% for photo in photos %}
+        {% for url in photos_urls %}
         <div class="photo">
-            <a href="/photo/{{ photo }}">
-                <img src="/photo/{{ photo }}" alt="{{ photo }}">
-            </a>
+            <img src="{{ url }}" class="img-thumbnail" alt="car Photo">
         </div>
         {% endfor %}
     </div>
