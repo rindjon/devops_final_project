@@ -14,10 +14,15 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Store Secrets
+      - name: Set AWS_ID secret as environment variable
         run: |
-          sed -i 's/AWS_ID/${{ secrets.AWS_ID }}/' ./k8s-manifests/configmap.yaml
-          sed -i 's/AWS_SECRET/${{ secrets.AWS_SECRET }}/' ./k8s-manifests/configmap.yaml
+          echo "AWS_ID=${{ secrets.AWS_ID }}" >> $AWS_ID_ENV
+          echo "AWS_SECRET=${{ secrets.AWS_SECRET }}" >> $AWS_SECRET_ENV
+
+      - name: Modify the configmap.yaml with AWS_ID
+        run: |
+          sed -i "s/AWS_ID/$AWS_ID_ENV/" ./k8s-manifests/configmap.yaml
+          sed -i "s/AWS_SECRET/$AWS_SECRET_ENV/" ./k8s-manifests/configmap.yaml
 
       - name: Copy Repo to Kind EC2
         run: |
