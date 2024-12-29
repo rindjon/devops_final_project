@@ -20,17 +20,19 @@ def load_config(config_path):
 configs = load_config("config.json")
 if configs is None:
     print("Error: Config file not loaded. Exiting.")
-    exit
+#    exit
 
 app = Flask(__name__)
+try:
+    session = boto3.Session(
+        aws_access_key_id=configs['AWS_ID'],
+        aws_secret_access_key=configs['AWS_SECRET'],
+        region_name='us-east-1'
+    )
 
-session = boto3.Session(
-    aws_access_key_id=configs['AWS_ID'],
-    aws_secret_access_key=configs['AWS_SECRET'],
-    region_name='us-east-1'
-)
-
-s3 = session.client('s3')
+    s3 = session.client('s3')
+except Exception as e:
+    print(f"Error creating S3 client: {e}")
 
 def get_s3_photos(bucket_name):
     try:
