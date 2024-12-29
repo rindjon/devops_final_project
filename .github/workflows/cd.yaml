@@ -16,8 +16,8 @@ jobs:
 
       - name: Store Secrets
         run: |
-          sed -i "s/AWS_ID/${{ secrets.AWS_ID }}/" ./k8s-manifests/configmap.yaml
-          sed -i "s/AWS_SECRET/${{ secrets.AWS_SECRET }}/" ./k8s-manifests/configmap.yaml
+          sed -i 's/AWS_ID/${{ secrets.AWS_ID }}/' ./k8s-manifests/configmap.yaml
+          sed -i 's/AWS_SECRET/${{ secrets.AWS_SECRET }}/' ./k8s-manifests/configmap.yaml
 
       - name: Copy Repo to Kind EC2
         run: |
