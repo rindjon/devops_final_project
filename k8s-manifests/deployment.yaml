@@ -22,7 +22,7 @@ spec:
         - name: config-volume
           mountPath: /app/config.json
           subPath: config.json
-       env:
+      env:
         - name: MONGODB_URL
           valueFrom:
             configMapKeyRef:

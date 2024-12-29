@@ -10,7 +10,7 @@ spec:
   clusterIP: None
   selector:
     app: mongodb
- ---
+---
 apiVersion: v1
 kind: Service
 metadata:
