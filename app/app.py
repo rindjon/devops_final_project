@@ -18,7 +18,9 @@ def load_config(config_path):
         return None
 
 configs = load_config("config.json")
-if configs is None: exit
+if configs is None:
+    print("Error: Config file not loaded. Exiting.")
+    exit
 
 app = Flask(__name__)
 
@@ -43,12 +45,12 @@ def get_s3_photos(bucket_name):
 @app.route("/")
 def index():
     # Local folder path
-    folder_path = os.getenv("PHOTO_FOLDER", "photos")
+    # folder_path = os.getenv("PHOTO_FOLDER", "photos")
 
-    welcome_message = load_config()
-    photos_urls = get_s3_photos('devops-final-project-bucket')
+    # welcome_message = load_config()
+    photos_urls = get_s3_photos(configs['BUCKET_NAME'])
 
-    return render_template("index.html", welcome_message=welcome_message, photos_urls=photos_urls)
+    return render_template("index.html", welcome_message=configs['HEADER_MSG'], photos_urls=photos_urls)
 
 
 if __name__ == "__main__":
