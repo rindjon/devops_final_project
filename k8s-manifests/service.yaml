@@ -1,16 +1,16 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: mongodb
-  namespace: pyui
-spec:
-  ports:
-  - port: 27017
-    targetPort: 27017
-  clusterIP: None
-  selector:
-    app: mongodb
----
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: mongodb
+#   namespace: pyui
+# spec:
+#   ports:
+#   - port: 27017
+#     targetPort: 27017
+#   clusterIP: None
+#   selector:
+#     app: mongodb
+# ---
 apiVersion: v1
 kind: Service
 metadata:
