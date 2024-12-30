@@ -22,12 +22,6 @@ spec:
         - name: config-volume
           mountPath: /app/config.json
           subPath: config.json
-      # env:
-      #   - name: MONGODB_URL
-      #     valueFrom:
-      #       configMapKeyRef:
-      #         name: app-config
-      #         key: mongodb_url
       volumes:
       - name: config-volume
         configMap:

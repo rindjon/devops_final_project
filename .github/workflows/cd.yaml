@@ -14,20 +14,6 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Set AWS_ID secret as environment variable
-        run: |
-          echo "${{ secrets.AWS_ID }}" > aws_id.txt
-          chmod 400 aws_id.txt
-          echo "${{ secrets.AWS_SECRET }}" > aws_secret.txt
-          chmod 400 aws_secret.txt
-          cat aws_id.txt | base64
-          cat aws_secret.txt | base64
-
-      # - name: Modify the configmap.yaml with AWS_ID
-      #   run: |
-      #     sed -i "s/AWS_ID/$AWS_ID/" ./k8s-manifests/configmap.yaml
-      #     sed -i "s/AWS_SECRET/$AWS_SECRET/" ./k8s-manifests/configmap.yaml
-
       - name: Copy Repo to Kind EC2
         run: |
           # Save the SSH private key to a file
@@ -51,6 +37,5 @@ jobs:
 
             # Apply all manifests
             kubectl apply -f configmap.yaml
-            # kubectl apply -f mongodb-statefulset.yaml
             kubectl apply -f deployment.yaml
             kubectl apply -f service.yaml

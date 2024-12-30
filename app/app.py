@@ -3,36 +3,36 @@ from flask import Flask, render_template, send_file
 import json
 import boto3
 
-configs = None
+app = Flask(__name__)
 
-def load_config(config_path):
+s3 = boto3.client(
+    's3',
+    region_name='us-east-1'
+)
+
+# Function to load the configuration file
+def load_config(config_path="config.json"):
     try:
         with open(config_path, "r") as file:
             config = json.load(file)
-            configs['HEADER_MSG']  = config.get("welcome_message", "Welcome to Cars Photos Viewer!")
-            configs['BUCKET_NAME'] = config.get("S3_bucket_name", "No bucket found")
-            configs['AWS_ID']      = config.get("aws_access_key_id", "No access key found")
-            configs['AWS_SECRET']  = config.get("aws_secret_access_key", "No secret key found")
-            print(configs)
+        return config.get("welcome_message", "Welcome to Cars Photos Viewer!")
     except FileNotFoundError:
-        print(f"Error: Config file '{config_path}' not found.")
+        return "Welcome to Cars Photos Viewer!"
 
-load_config("config.json")
-if configs is None:
-    print("Error: Config file not loaded. Exiting.")
-#    exit
-
-app = Flask(__name__)
-try:
-    session = boto3.Session(
-        aws_access_key_id=configs['AWS_ID'],
-        aws_secret_access_key=configs['AWS_SECRET'],
-        region_name='us-east-1'
-    )
-
-    s3 = session.client('s3')
-except Exception as e:
-    print(f"Error creating S3 client: {e}")
+# Function to get photos from a local folder
+# def get_local_photos(folder_path="photos"):
+#     try:
+#         if os.path.exists(folder_path):
+#             return [
+#                 file for file in os.listdir(folder_path)
+#                 if file.lower().endswith((".png", ".jpg", ".jpeg"))
+#             ]
+#         else:
+#             print(f"Error: Folder '{folder_path}' does not exist.")
+#             return []
+#     except Exception as e:
+#         print(f"Error retrieving files from folder: {e}")
+#         return []
 
 def get_s3_photos(bucket_name):
     try:
@@ -47,13 +47,20 @@ def get_s3_photos(bucket_name):
 @app.route("/")
 def index():
     # Local folder path
-    # folder_path = os.getenv("PHOTO_FOLDER", "photos")
+    folder_path = os.getenv("PHOTO_FOLDER", "photos")
 
-    # welcome_message = load_config()
-    photos_urls = get_s3_photos(configs['BUCKET_NAME'])
+    welcome_message = load_config()
+    photos_urls = get_s3_photos('devops-final-project-bucket')
 
-    return render_template("index.html", welcome_message=configs['HEADER_MSG'], photos_urls=photos_urls)
+    return render_template("index.html", welcome_message=welcome_message, photos_urls=photos_urls)
 
+# @app.route("/photo/<path:photo_key>")
+# def photo(photo_key):
+#     folder_path = os.getenv("PHOTO_FOLDER", "photos")
+#     file_path = os.path.join(folder_path, photo_key)
+#     if os.path.exists(file_path):
+#         return send_file(file_path, mimetype="image/jpeg")
+#     return "Error: Photo not found.", 404
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
