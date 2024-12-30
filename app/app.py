@@ -50,7 +50,7 @@ def index():
     folder_path = os.getenv("PHOTO_FOLDER", "photos")
 
     welcome_message = load_config()
-    photos_urls = get_s3_photos('devops-final-project-bucket')
+    photos_urls = get_s3_photos('devops-final-project-photos')
 
     return render_template("index.html", welcome_message=welcome_message, photos_urls=photos_urls)
 
