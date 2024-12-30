@@ -3,6 +3,8 @@ from flask import Flask, render_template, send_file
 import json
 import boto3
 
+configs = None
+
 def load_config(config_path):
     try:
         with open(config_path, "r") as file:
@@ -12,12 +14,10 @@ def load_config(config_path):
             configs['AWS_ID']      = config.get("aws_access_key_id", "No access key found")
             configs['AWS_SECRET']  = config.get("aws_secret_access_key", "No secret key found")
             print(configs)
-        return configs
     except FileNotFoundError:
         print(f"Error: Config file '{config_path}' not found.")
-        return None
 
-configs = load_config("config.json")
+load_config("config.json")
 if configs is None:
     print("Error: Config file not loaded. Exiting.")
 #    exit

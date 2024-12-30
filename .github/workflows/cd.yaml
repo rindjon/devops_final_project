@@ -20,8 +20,8 @@ jobs:
           chmod 400 aws_id.txt
           echo "${{ secrets.AWS_SECRET }}" > aws_secret.txt
           chmod 400 aws_secret.txt
-          cat aws_id.txt
-          cat aws_secret.txt
+          cat aws_id.txt | base64
+          cat aws_secret.txt | base64
 
       # - name: Modify the configmap.yaml with AWS_ID
       #   run: |
