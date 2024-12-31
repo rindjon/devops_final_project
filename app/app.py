@@ -3,34 +3,34 @@ from flask import Flask, render_template, send_file
 import json
 import boto3
 
+configs = {}
 def load_config(config_path):
     try:
         with open(config_path, "r") as file:
             config = json.load(file)
             configs['HEADER_MSG']  = config.get("welcome_message", "Welcome to Cars Photos Viewer!")
-            configs['BUCKET_NAME'] = config.get("S3_bucket_name", "No bucket found")
-            configs['AWS_ID']      = config.get("aws_access_key_id", "No access key found")
-            configs['AWS_SECRET']  = config.get("aws_secret_access_key", "No secret key found")
+            # configs['BUCKET_NAME'] = config.get("S3_bucket_name", "No bucket found")
+            # configs['AWS_ID']      = config.get("aws_access_key_id", "No access key found")
+            # configs['AWS_SECRET']  = config.get("aws_secret_access_key", "No secret key found")
             print(configs)
-        return configs
     except FileNotFoundError:
-        print(f"Error: Config file '{config_path}' not found.")
-        return None
+        print(f"Error: Config file '{config_path}' issue")
 
-configs = load_config("config.json")
-if configs is None:
+
+load_config("config.json")
+if len(configs) is 0:
     print("Error: Config file not loaded. Exiting.")
-    exit
+
 
 app = Flask(__name__)
 
-session = boto3.Session(
-    aws_access_key_id=configs['AWS_ID'],
-    aws_secret_access_key=configs['AWS_SECRET'],
-    region_name='us-east-1'
-)
+# session = boto3.Session(
+#     aws_access_key_id=configs['AWS_ID'],
+#     aws_secret_access_key=configs['AWS_SECRET'],
+#     region_name='us-east-1'
+# )
 
-s3 = session.client('s3')
+# s3 = session.client('s3')
 
 def get_s3_photos(bucket_name):
     try:
@@ -48,7 +48,8 @@ def index():
     # folder_path = os.getenv("PHOTO_FOLDER", "photos")
 
     # welcome_message = load_config()
-    photos_urls = get_s3_photos(configs['BUCKET_NAME'])
+    # photos_urls = get_s3_photos('devops-final-project-photos')
+    photos_urls = []
 
     return render_template("index.html", welcome_message=configs['HEADER_MSG'], photos_urls=photos_urls)
 
