@@ -52,8 +52,10 @@ jobs:
           envs: AWS_ID, AWS_SECRET
           script: |
             cd ~/repo/k8s-manifests
-            echo "this is env AWS_ID: ${AWS_ID}"
-            echo "this is env AWS_SECRET: ${AWS_SECRET}"
+            AWS_LOC_ID=$(echo "$AWS_ID" | base64 -d)
+            echo $AWS_LOC_ID
+            AWS_LOC_SECRET=$(echo "$AWS_SECRET" | base64 -d)
+            echo $AWS_LOC_SECRET
             kubectl create ns pyui || true
             kubectl create secret generic aws-secret --from-literal=AWS_ID=${AWS_ID} --from-literal=AWS_SECRET=${AWS_SECRET} --namespace pyui
             # Apply all manifests
