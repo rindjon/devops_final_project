@@ -18,17 +18,17 @@ jobs:
         run: |
           AWS_LOC_ID=$(echo "${{ secrets.AWS_ID }}" | base64 -d)
           echo $AWS_LOC_ID
-          AWS_LOC_SECRET=$(echo "${{ secrets.AWS_ID }}" | base64 -d)
+          AWS_LOC_SECRET=$(echo "${{ secrets.AWS_SECRET }}" | base64 -d)
           echo $AWS_LOC_SECRET
           # sed -i 's/AWS_ID/${{ secrets.AWS_ID }}/' ./k8s-manifests/configmap.yaml
           # sed -i 's/AWS_SECRET/${{ secrets.AWS_SECRET }}/' ./k8s-manifests/configmap.yaml
 
-      - name: Create Kubernetes Secret
-        env:
-          AWS_ID: ${{ secrets.AWS_ID }}
-          AWS_SECRET: ${{ secrets.AWS_SECRET }}
-        run: |
-          kubectl create secret generic aws-secret --from-literal=AWS_ID=${AWS_ID} --from-literal=AWS_SECRET=${AWS_SECRET} --namespace pyui
+      # - name: Create Kubernetes Secret
+      #   env:
+      #     AWS_ID: ${{ secrets.AWS_ID }}
+      #     AWS_SECRET: ${{ secrets.AWS_SECRET }}
+      #   run: |
+      #     kubectl create secret generic aws-secret --from-literal=AWS_ID=${AWS_ID} --from-literal=AWS_SECRET=${AWS_SECRET} --namespace pyui
 
       - name: Copy Repo to Kind EC2
         run: |
@@ -41,16 +41,20 @@ jobs:
 
       - name: Deploy to kind Cluster
         uses: appleboy/ssh-action@v1.2.0
+        env:
+          AWS_ID: ${{ secrets.AWS_ID }}
+          AWS_SECRET: ${{ secrets.AWS_SECRET }}
         with:
           host: ${{ inputs.EC2_IP }}
           username: ec2-user
           key: ${{ secrets.SSH_KEY }}
           port: 22
+          envs: AWS_ID, AWS_SECRET
           script: |
             cd ~/repo/k8s-manifests
 
             kubectl create ns pyui || true
-
+            kubectl create secret generic aws-secret --from-literal=AWS_ID=${AWS_ID} --from-literal=AWS_SECRET=${AWS_SECRET} --namespace pyui
             # Apply all manifests
             kubectl apply -f configmap.yaml
             kubectl apply -f deployment.yaml
