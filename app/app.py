@@ -3,23 +3,18 @@ from flask import Flask, render_template, send_file
 import json
 import boto3
 
-configs = {}
-def load_config(config_path):
+def load_config(config_path="config.json"):
     try:
         with open(config_path, "r") as file:
             config = json.load(file)
-            configs['HEADER_MSG']  = config.get("welcome_message", "Welcome to Cars Photos Viewer!")
-            # configs['BUCKET_NAME'] = config.get("S3_bucket_name", "No bucket found")
-            # configs['AWS_ID']      = config.get("aws_access_key_id", "No access key found")
-            # configs['AWS_SECRET']  = config.get("aws_secret_access_key", "No secret key found")
-            print(configs)
+        return config.get("welcome_message", "Welcome to Cars Photos Viewer!")
     except FileNotFoundError:
-        print(f"Error: Config file '{config_path}' issue")
+        return "Welcome to Cars Photos Viewer!"
 
 
-load_config("config.json")
-if len(configs) is 0:
-    print("Error: Config file not loaded. Exiting.")
+# load_config("config.json")
+# if len(configs) is 0:
+#     print("Error: Config file not loaded. Exiting.")
 
 
 app = Flask(__name__)
@@ -50,11 +45,11 @@ def index():
     # Local folder path
     # folder_path = os.getenv("PHOTO_FOLDER", "photos")
 
-    # welcome_message = load_config()
+    welcome_message = load_config()
     photos_urls = get_s3_photos('devops-final-project-photos')
     # photos_urls = []
 
-    return render_template("index.html", welcome_message=configs['HEADER_MSG'], photos_urls=photos_urls)
+    return render_template("index.html", welcome_message=welcome_message, photos_urls=photos_urls)
 
 
 if __name__ == "__main__":
