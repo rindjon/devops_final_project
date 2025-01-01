@@ -14,7 +14,7 @@
     2. Copy the aws_access_key_id to "AWS_ID"
     3. Copy the aws_secret_access_key to "AWS_SECRET"
 3. Create S3 buckets
-    1. Photos bucket - Add the correct policy (see how in the comment inside infra/modules/s3/main.tf)
+    1. Photos bucket - allow public access and Add the correct policy (see how in the comment inside infra/modules/s3/main.tf)
     2. Photos bucket - upload the photos
 4. in infra folder: ti -> tp -> ta
 5. Manually Verify runner runs with the new github Runner's SSH key
