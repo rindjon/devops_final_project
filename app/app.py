@@ -30,7 +30,10 @@ app = Flask(__name__)
 #     region_name='us-east-1'
 # )
 
-# s3 = session.client('s3')
+s3 = boto3.client(
+    's3',
+    region_name='us-east-1'
+)
 
 def get_s3_photos(bucket_name):
     try:
@@ -48,8 +51,8 @@ def index():
     # folder_path = os.getenv("PHOTO_FOLDER", "photos")
 
     # welcome_message = load_config()
-    # photos_urls = get_s3_photos('devops-final-project-photos')
-    photos_urls = []
+    photos_urls = get_s3_photos('devops-final-project-photos')
+    # photos_urls = []
 
     return render_template("index.html", welcome_message=configs['HEADER_MSG'], photos_urls=photos_urls)
 
