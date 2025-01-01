@@ -23,6 +23,13 @@ jobs:
           # sed -i 's/AWS_ID/${{ secrets.AWS_ID }}/' ./k8s-manifests/configmap.yaml
           # sed -i 's/AWS_SECRET/${{ secrets.AWS_SECRET }}/' ./k8s-manifests/configmap.yaml
 
+      - name: Create Kubernetes Secret
+        env:
+          AWS_ID: ${{ secrets.AWS_ID }}
+          AWS_SECRET: ${{ secrets.AWS_SECRET }}
+        run: |
+          kubectl create secret generic aws-secret --from-literal=AWS_ID=${AWS_ID} --from-literal=AWS_SECRET=${AWS_SECRET} --namespace pyui
+
       - name: Copy Repo to Kind EC2
         run: |
           # Save the SSH private key to a file
