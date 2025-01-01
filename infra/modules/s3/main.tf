@@ -21,7 +21,7 @@ resource "aws_s3_bucket" "main" {
 #             "Effect": "Allow",
 #             "Principal": "*",
 #             "Action": "s3:GetObject",
-#             "Resource": "arn:aws:s3:::var.bucket_name/*"
+#             "Resource": "arn:aws:s3:::devops-final-project-photos/*"
 #         }
 #     ]
 # }
