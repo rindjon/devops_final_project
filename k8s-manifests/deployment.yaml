@@ -18,15 +18,17 @@ spec:
         image: rr1docker1/final-proj-app:v1
         env:
         - name: AWS_ID
-          valueFrom:
-            secretKeyRef:
-              name: aws-secret
-              key: AWS_ID
+          value: "AWS_ID_STUB"
+          # valueFrom:
+            # secretKeyRef:
+            #   name: aws-secret
+            #   key: AWS_ID
         - name: AWS_SECRET
-          valueFrom:
-            secretKeyRef:
-              name: aws-secret
-              key: AWS_SECRET
+          value: "AWS_SECRET_STUB"
+          # valueFrom:
+          #   secretKeyRef:
+          #     name: aws-secret
+          #     key: AWS_SECRET
         ports:
         - containerPort: 5000
         volumeMounts:
