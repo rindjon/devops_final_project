@@ -11,8 +11,8 @@
 1. vim ~/.aws/credentials (from AWS CLI)
 2. Update next github secrets:
     1. Copy the SSH key of the cloud access to  "SSH_KEY"
-    2. Copy the aws_access_key_id to "AWS_ID"
-    3. Copy the aws_secret_access_key to "AWS_SECRET"
+    2. Copy the aws_access_key_id to "AWS_ID" (use echo -n '<key>' | base64)
+    3. Copy the aws_secret_access_key to "AWS_SECRET" (use echo -n '<key>' | base64)
 3. Create S3 buckets
     1. backend bucket - create the bucket
     2. Photos bucket - create the bucket

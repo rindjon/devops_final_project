@@ -20,8 +20,8 @@ jobs:
           echo $AWS_LOC_ID
           AWS_LOC_SECRET=$(echo "${{ secrets.AWS_SECRET }}" | base64 -d)
           echo $AWS_LOC_SECRET
-          sed -i 's/AWS_ID_STUB/$AWS_LOC_ID/' ./k8s-manifests/deployment.yaml
-          sed -i 's/AWS_SECRET_STUB/$AWS_LOC_SECRET/' ./k8s-manifests/deployment.yaml
+          sed -i "s|AWS_ID_STUB|$AWS_LOC_ID|" ./k8s-manifests/deployment.yaml
+          sed -i "s|AWS_SECRET_STUB|$AWS_LOC_SECRET|" ./k8s-manifests/deployment.yaml
 
       # - name: Create Kubernetes Secret
       #   env:

@@ -25,6 +25,9 @@ app = Flask(__name__)
 #     region_name='us-east-1'
 # )
 
+print(os.getenv('AWS_ID', 'aws_id not found'))
+print(os.getenv('AWS_SECRET', 'aws_id not found'))
+
 try:
     s3 = boto3.client(
         's3',
@@ -33,6 +36,7 @@ try:
         region_name='us-east-1'
     )
 except Exception as e:
+    print(f"Error creating S3 client: {e}")
     s3 = boto3.client(
         's3',
         region_name='us-east-1'
