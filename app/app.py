@@ -57,11 +57,11 @@ def index():
     # Local folder path
     # folder_path = os.getenv("PHOTO_FOLDER", "photos")
 
-    welcome_message = load_config()
+    # welcome_message = load_config()
     photos_urls = get_s3_photos('devops-final-project-photos')
     # photos_urls = []
 
-    return render_template("index.html", welcome_message=welcome_message, photos_urls=photos_urls)
+    return render_template("index.html", welcome_message="This is our cars photos viewer app", photos_urls=photos_urls)
 
 
 if __name__ == "__main__":
