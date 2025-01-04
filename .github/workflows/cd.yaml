@@ -60,5 +60,9 @@ jobs:
             kubectl create secret generic aws-secret --from-literal=AWS_ID=${AWS_ID} --from-literal=AWS_SECRET=${AWS_SECRET} --namespace pyui
             # Apply all manifests
             kubectl apply -f configmap.yaml
+            kubectl apply -f storageclass.yaml
+            kubectl apply -f PersistentVolumeClaim.yaml
+            kubectl apply -f StatefulSet.yaml
+            kubectl apply -f service_mysql.yaml
             kubectl apply -f deployment.yaml
             kubectl apply -f service.yaml

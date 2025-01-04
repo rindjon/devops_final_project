@@ -1,0 +1,9 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: mysql-storage-class
+  namespace: pyui
+provisioner: kubernetes.io/aws-ebs  # Change based on your cloud provider
+parameters:
+  type: gp2
+  fsType: ext4

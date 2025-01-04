@@ -2,14 +2,41 @@ import os
 from flask import Flask, render_template, send_file
 import json
 import boto3
+import pymysql
 
-def load_config(config_path="config.json"):
+# MySQL connection configuration
+DB_HOST = "mysql"  # Use the service name defined in service.yaml
+DB_USER = "root"
+DB_PASSWORD = "password"  # Match MYSQL_ROOT_PASSWORD in StatefulSet
+DB_NAME = "logs_db"  # Match MYSQL_DATABASE in StatefulSet
+
+# Function to insert data into the database
+def insert_into_db(data):
     try:
-        with open(config_path, "r") as file:
-            config = json.load(file)
-        return config.get("welcome_message", "Welcome to Cars Photos Viewer!")
-    except FileNotFoundError:
-        return "Welcome to Cars Photos Viewer!"
+        connection = pymysql.connect(
+            host=DB_HOST,
+            user=DB_USER,
+            password=DB_PASSWORD,
+            database=DB_NAME
+        )
+        cursor = connection.cursor()
+        cursor.execute("CREATE TABLE IF NOT EXISTS logs (id INT AUTO_INCREMENT PRIMARY KEY, input_data TEXT)")
+        cursor.execute("INSERT INTO logs (input_data) VALUES (%s)", (data,))
+        connection.commit()
+    except pymysql.MySQLError as err:
+        print(f"Error: {err}")
+    finally:
+        if connection:
+            cursor.close()
+            connection.close()
+
+# def load_config(config_path="config.json"):
+#     try:
+#         with open(config_path, "r") as file:
+#             config = json.load(file)
+#         return config.get("welcome_message", "Welcome to Cars Photos Viewer!")
+#     except FileNotFoundError:
+#         return "Welcome to Cars Photos Viewer!"
 
 
 # load_config("config.json")
@@ -58,6 +85,7 @@ def index():
     # folder_path = os.getenv("PHOTO_FOLDER", "photos")
 
     # welcome_message = load_config()
+    insert_into_db("photos accessed")
     photos_urls = get_s3_photos('devops-final-project-photos')
     # photos_urls = []
 
