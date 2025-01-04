@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y \
 
 ENV PYTHONUNBUFFERED=1
 
-RUN pip install flask boto3
+RUN pip install flask boto3 pymysql
 
 WORKDIR /app
 
