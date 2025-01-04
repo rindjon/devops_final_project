@@ -1,21 +1,24 @@
+
 apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: local-pv-1
 spec:
   capacity:
-    storage: 10Gi
+    storage: 5Gi
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   storageClassName: mysql-storage-class
   local:
-    path: /mnt/disks/local-storage #Replace /mnt/disks/local-storage with the path to the local storage on the node.
+    path: /mnt/disks/local-storage
   nodeAffinity:
     required:
       nodeSelectorTerms:
-        - matchExpressions:
-            - key: kubernetes.io/hostname
-              operator: In
-              values:
-                - <node-name> #replace with node name
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - minikube
+          - minikube-m02
+          - minikube-m03
