@@ -20,6 +20,4 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - minikube
-          - minikube-m02
-          - minikube-m03
+          - kind-cluster-control-plane
