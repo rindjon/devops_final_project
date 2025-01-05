@@ -61,6 +61,7 @@ jobs:
             # Apply all manifests
             kubectl apply -f configmap.yaml
             kubectl apply -f storageclass.yaml
+            kubectl apply -f PersistentVolumes.yaml
             kubectl apply -f PersistentVolumeClaim.yaml
             kubectl apply -f StatefulSet.yaml
             kubectl apply -f service_mysql.yaml

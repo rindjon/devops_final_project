@@ -3,7 +3,5 @@ kind: StorageClass
 metadata:
   name: mysql-storage-class
   namespace: pyui
-provisioner: kubernetes.io/aws-ebs  # Change based on your cloud provider
-parameters:
-  type: gp2
-  fsType: ext4
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumer
