@@ -85,7 +85,7 @@ def index():
     # folder_path = os.getenv("PHOTO_FOLDER", "photos")
 
     # welcome_message = load_config()
-    insert_into_db("photos accessed")
+    # insert_into_db("photos accessed")
     photos_urls = get_s3_photos('devops-final-project-photos')
     # photos_urls = []
 
