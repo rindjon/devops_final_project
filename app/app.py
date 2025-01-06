@@ -30,27 +30,7 @@ def insert_into_db(data):
             cursor.close()
             connection.close()
 
-# def load_config(config_path="config.json"):
-#     try:
-#         with open(config_path, "r") as file:
-#             config = json.load(file)
-#         return config.get("welcome_message", "Welcome to Cars Photos Viewer!")
-#     except FileNotFoundError:
-#         return "Welcome to Cars Photos Viewer!"
-
-
-# load_config("config.json")
-# if len(configs) is 0:
-#     print("Error: Config file not loaded. Exiting.")
-
-
 app = Flask(__name__)
-
-# session = boto3.Session(
-#     aws_access_key_id=configs['AWS_ID'],
-#     aws_secret_access_key=configs['AWS_SECRET'],
-#     region_name='us-east-1'
-# )
 
 print(os.getenv('AWS_ID', 'aws_id not found'))
 print(os.getenv('AWS_SECRET', 'aws_id not found'))
@@ -81,13 +61,8 @@ def get_s3_photos(bucket_name):
 
 @app.route("/")
 def index():
-    # Local folder path
-    # folder_path = os.getenv("PHOTO_FOLDER", "photos")
-
-    # welcome_message = load_config()
-    insert_into_db("photos accessed")
+    # insert_into_db("photos accessed")
     photos_urls = get_s3_photos('devops-final-project-photos')
-    # photos_urls = []
 
     return render_template("index.html", welcome_message="This is our cars photos viewer app", photos_urls=photos_urls)
 
