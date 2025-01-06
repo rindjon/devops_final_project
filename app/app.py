@@ -61,7 +61,7 @@ def get_s3_photos(bucket_name):
 
 @app.route("/")
 def index():
-    # insert_into_db("photos accessed")
+    insert_into_db("test test")
     photos_urls = get_s3_photos('devops-final-project-photos')
 
     return render_template("index.html", welcome_message="This is our cars photos viewer app", photos_urls=photos_urls)
