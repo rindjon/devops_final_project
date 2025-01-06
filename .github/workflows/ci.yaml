@@ -11,7 +11,7 @@ on:
 
 env:
   IMAGE_NAME: final-proj-app
-  IMAGE_TAG: v2
+  IMAGE_TAG: v3
   DOCKER_ACCOUNT: rr1docker1
 
 jobs:

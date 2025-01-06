@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: python-app
-        image: rr1docker1/final-proj-app:v2
+        image: rr1docker1/final-proj-app:v3
         env:
         - name: AWS_ID
           value: "AWS_ID_STUB"
